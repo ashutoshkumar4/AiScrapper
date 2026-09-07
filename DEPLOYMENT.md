@@ -19,8 +19,8 @@ npx vercel --prod
    root-level `render.yaml` and creates `poe-scraper` and `poe-api` on free
    instances.
 3. Supply `OPENAI_API_KEY` and `GEMINI_API_KEY` when prompted.
-4. Set `POE_ALLOWED_ORIGINS` to the frontend URL, for example
-   `https://poe-scrapper.vercel.app`.
+4. `POE_ALLOWED_ORIGINS` is configured by the Blueprint for the production
+   frontend URL, `https://poe-scrapper.vercel.app`.
 5. If Render assigns a scraper URL other than
    `https://poe-scraper.onrender.com`, update `POE_API_URL` on `poe-api` to
    `<actual-scraper-url>/find-poe/`.

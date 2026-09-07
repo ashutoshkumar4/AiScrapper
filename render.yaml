@@ -27,6 +27,6 @@ services:
       - key: POE_API_URL
         value: https://poe-scraper.onrender.com/find-poe/
       - key: POE_ALLOWED_ORIGINS
-        sync: false
+        value: https://poe-scrapper.vercel.app,https://frontend-gamma-ten-33.vercel.app
       - key: POE_DB_PATH
         value: /tmp/poe_test.db

@@ -12,7 +12,7 @@ const scraperUrl=process.env.POE_API_URL||'http://127.0.0.1:8001/find-poe/';
 const pollMs=Number(process.env.POE_POLL_MS||2000);
 const taskTimeoutMs=Number(process.env.POE_TIMEOUT_MS||300000);
 const port=Number(process.env.PORT||process.env.POE_PORT||8080);
-const allowedOrigins=(process.env.POE_ALLOWED_ORIGINS||'http://localhost:4200,http://127.0.0.1:4200').split(',').map(value=>value.trim()).filter(Boolean);
+const allowedOrigins=(process.env.POE_ALLOWED_ORIGINS||'http://localhost:4200,http://127.0.0.1:4200,https://poe-scrapper.vercel.app').split(',').map(value=>value.trim()).filter(Boolean);
 const app=express();
 fs.mkdirSync(path.dirname(dbPath),{recursive:true});
 if(!fs.existsSync(dbPath)&&dbPath!==seedDbPath)fs.copyFileSync(seedDbPath,dbPath);
