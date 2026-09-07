@@ -1,0 +1,40 @@
+services:
+  - type: web
+    name: poe-scraper
+    runtime: docker
+    rootDir: scrapper
+    plan: starter
+    healthCheckPath: /docs
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite:////data/tasks.db
+      - key: MAX_CONCURRENT_BROWSERS
+        value: "2"
+      - key: SEARCH_PROVIDER
+        value: duckduckgo
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+    disk:
+      name: scraper-data
+      mountPath: /data
+      sizeGB: 1
+
+  - type: web
+    name: poe-api
+    runtime: docker
+    rootDir: poe-app/backend
+    plan: starter
+    healthCheckPath: /api/health
+    envVars:
+      - key: POE_API_URL
+        value: https://poe-scraper.onrender.com/find-poe/
+      - key: POE_ALLOWED_ORIGINS
+        sync: false
+      - key: POE_DB_PATH
+        value: /data/poe_test.db
+    disk:
+      name: api-data
+      mountPath: /data
+      sizeGB: 1
