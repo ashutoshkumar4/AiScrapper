@@ -3,7 +3,7 @@ services:
     name: poe-scraper
     runtime: docker
     rootDir: scrapper
-    plan: starter
+    plan: free
     healthCheckPath: /docs
     envVars:
       - key: DATABASE_URL
@@ -16,16 +16,12 @@ services:
         sync: false
       - key: GEMINI_API_KEY
         sync: false
-    disk:
-      name: scraper-data
-      mountPath: /data
-      sizeGB: 1
 
   - type: web
     name: poe-api
     runtime: docker
     rootDir: poe-app/backend
-    plan: starter
+    plan: free
     healthCheckPath: /api/health
     envVars:
       - key: POE_API_URL
@@ -33,8 +29,4 @@ services:
       - key: POE_ALLOWED_ORIGINS
         sync: false
       - key: POE_DB_PATH
-        value: /data/poe_test.db
-    disk:
-      name: api-data
-      mountPath: /data
-      sizeGB: 1
+        value: /tmp/poe_test.db

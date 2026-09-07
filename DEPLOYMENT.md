@@ -16,7 +16,8 @@ npx vercel --prod
 
 1. Push this repository to GitHub.
 2. In Render, create a **Blueprint** from the repository. Render reads the
-   root-level `render.yaml` and creates `poe-scraper` and `poe-api`.
+   root-level `render.yaml` and creates `poe-scraper` and `poe-api` on free
+   instances.
 3. Supply `OPENAI_API_KEY` and `GEMINI_API_KEY` when prompted.
 4. Set `POE_ALLOWED_ORIGINS` to the frontend URL, for example
    `https://frontend-gamma-ten-33.vercel.app`.
@@ -24,8 +25,11 @@ npx vercel --prod
    `https://poe-scraper.onrender.com`, update `POE_API_URL` on `poe-api` to
    `<actual-scraper-url>/find-poe/`.
 
-Persistent disks require a paid Render instance. The Blueprint uses the
-Starter plan and 1 GB disks.
+The Blueprint uses Render's free instance type. Free services spin down while
+idle and use an ephemeral filesystem. The bundled reference records are copied
+into place again at startup, but API search history and scraper task state can
+be lost after a restart, redeploy, or idle spin-down. Use paid instances with
+persistent disks before treating this as a production deployment.
 
 ## 3. Connect Vercel to the API
 
