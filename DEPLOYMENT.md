@@ -20,7 +20,7 @@ npx vercel --prod
    instances.
 3. Supply `OPENAI_API_KEY` and `GEMINI_API_KEY` when prompted.
 4. Set `POE_ALLOWED_ORIGINS` to the frontend URL, for example
-   `https://frontend-gamma-ten-33.vercel.app`.
+   `https://poe-scrapper.vercel.app`.
 5. If Render assigns a scraper URL other than
    `https://poe-scraper.onrender.com`, update `POE_API_URL` on `poe-api` to
    `<actual-scraper-url>/find-poe/`.
