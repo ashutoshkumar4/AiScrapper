@@ -1,0 +1,31 @@
+<div class="app-shell">
+  <header class="topbar"><div class="brand"><span class="brand-mark">P</span><div><strong>POE Intelligence</strong><small>Employer discovery workspace</small></div></div><div class="status"><span></span> Database connected · {{totalRecords()}} records</div></header>
+  <main>
+    <section class="hero"><div><p class="eyebrow">PUBLIC RECORDS ENRICHMENT</p><h1>Find the strongest employer match.</h1><p class="hero-copy">Select a person from your POE database, verify the location, and run a sourced search across both providers.</p></div><div class="hero-stat"><strong>{{totalRecords()}}</strong><span>test records ready</span></div></section>
+    <div class="workspace">
+      <aside class="records-panel">
+        <div class="panel-heading"><div><p class="eyebrow">DATABASE</p><h2>People</h2></div><span class="count">{{records().length}}</span></div>
+        <label class="search-box"><span>⌕</span><input #filterInput type="search" placeholder="Search name, city, reference…" [value]="query()" (input)="onFilter(filterInput.value)" /></label>
+        <div class="record-list">@for(record of records();track record.reference_number){<button class="record" [class.active]="selected()?.reference_number===record.reference_number" (click)="selectRecord(record)"><span class="avatar">{{record.full_name.charAt(0)}}</span><span class="record-copy"><strong>{{record.full_name}}</strong><small>{{record.city}}, {{record.state}} · {{record.zip_code.padStart(5,'0')}}</small></span><span class="chevron">›</span></button>}@empty{<div class="empty">No matching database records.</div>}</div>
+      </aside>
+      <section class="search-panel">
+        <div class="panel-heading"><div><p class="eyebrow">SEARCH INPUT</p><h2>Employer lookup</h2></div>@if(selected()){<span class="reference">Ref {{selected()!.reference_number}}</span>}</div>
+        <form (ngSubmit)="findPoe()">
+          <label class="wide"><span>Full name</span><input name="fullName" [(ngModel)]="fullName" required /></label>
+          <label><span>City</span><input name="city" [(ngModel)]="city" required /></label><label><span>State</span><input name="state" [(ngModel)]="state" maxlength="2" required /></label>
+          <label><span>ZIP code</span><input name="zipCode" [(ngModel)]="zipCode" required /></label><label><span>Country</span><input name="country" [(ngModel)]="country" required /></label>
+          <fieldset class="wide"><legend>Research provider</legend><div class="provider-options">@for(option of [{v:'both',l:'Both providers'},{v:'openai',l:'OpenAI'},{v:'gemini',l:'Gemini'}];track option.v){<label><input type="radio" name="provider" [value]="option.v" [(ngModel)]="provider"/><span>{{option.l}}</span></label>}</div></fieldset>
+          <button class="run-button wide" type="submit" [disabled]="searching()">@if(searching()){<span class="spinner"></span> Researching public sources…}@else{Run employer discovery <span>→</span>}</button>
+        </form>
+        @if(selected()){<div class="source-card"><span>SOURCE RECORD</span><strong>{{selected()!.employer_name||'No employer recorded'}}</strong><small>{{selected()!.address}} · Reported {{selected()!.address_reported_date}}</small></div>}
+        @if(error()){<div class="error-banner">{{error()}}</div>}
+      </section>
+    </div>
+    @if(result()){
+      <section class="results"><div class="results-head"><div><p class="eyebrow">VERIFIED OUTPUT</p><h2>Employer candidates</h2><p>{{result()?.message}}</p></div><span class="success">{{result()?.status}}</span></div>
+        @if(bestMatch();as best){<article class="best-match"><div class="rank">01</div><div class="candidate-copy"><span class="best-label">Best match</span><h3>{{best.company_name}}</h3><p>{{best.evidence_summary}}</p><div class="sources">@for(source of best.sources_found;track source){<a [href]="source" target="_blank" rel="noopener">View supporting source ↗</a>}</div></div><div class="score"><strong>{{confidence(best.confidence_score)}}</strong><span>confidence</span></div></article>}
+        <div class="candidate-grid">@for(candidate of candidates().slice(1);track candidate.company_name;let index=$index){<article class="candidate"><div class="candidate-top"><span>0{{index+2}}</span><strong>{{confidence(candidate.confidence_score)}}</strong></div><h3>{{candidate.company_name}}</h3><p>{{candidate.evidence_summary}}</p><div class="sources">@for(source of candidate.sources_found;track source){<a [href]="source" target="_blank" rel="noopener">Source {{$index+1}} ↗</a>}</div></article>}</div>
+      </section>
+    }@else{<section class="results-placeholder"><div class="radar"><b></b></div><div><h3>Results will appear here</h3><p>Run an employer discovery to compare candidates, confidence scores, evidence, and sources.</p></div></section>}
+  </main>
+</div>
