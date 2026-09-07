@@ -31,6 +31,9 @@ into place again at startup, but API search history and scraper task state can
 be lost after a restart, redeploy, or idle spin-down. Use paid instances with
 persistent disks before treating this as a production deployment.
 
+The free services store their runtime SQLite files under `/tmp`, which is
+writable but ephemeral on Render.
+
 ## 3. Connect Vercel to the API
 
 After Render provides the final `poe-api` URL, add `poe-app/frontend/vercel.json`:

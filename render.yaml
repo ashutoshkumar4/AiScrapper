@@ -7,7 +7,7 @@ services:
     healthCheckPath: /docs
     envVars:
       - key: DATABASE_URL
-        value: sqlite:////data/tasks.db
+        value: sqlite:////tmp/tasks.db
       - key: MAX_CONCURRENT_BROWSERS
         value: "2"
       - key: SEARCH_PROVIDER
