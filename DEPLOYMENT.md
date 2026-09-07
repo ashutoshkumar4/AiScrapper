@@ -36,12 +36,13 @@ writable but ephemeral on Render.
 
 ## 3. Connect Vercel to the API
 
-After Render provides the final `poe-api` URL, add `poe-app/frontend/vercel.json`:
+The frontend proxies same-origin `/api` requests to the deployed Render API via
+`poe-app/frontend/vercel.json`:
 
 ```json
 {
   "rewrites": [
-    { "source": "/api/:path*", "destination": "https://YOUR-POE-API.onrender.com/api/:path*" }
+    { "source": "/api/:path*", "destination": "https://poe-api-2faf.onrender.com/api/:path*" }
   ]
 }
 ```

@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://poe-api-2faf.onrender.com/api/:path*"
+    }
+  ]
+}
